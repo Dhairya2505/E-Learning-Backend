@@ -1,5 +1,9 @@
 import { Router } from "express";
 import { genSalt, hash } from "bcrypt";
+import nodeMailer from 'nodemailer';
+
+import dotenv from 'dotenv';
+dotenv.config();
 
 import { AllCredentials } from "../../Middlewares/Users/AllCredentials.js";
 import { UserDuplicacy } from "../../Middlewares/Users/UserDuplicacy.js";
@@ -22,7 +26,10 @@ SignUpRoute.post('/', AllCredentials, UserDuplicacy, StrongPassword, async (req,
         try {
             const date = new Date();
             const time = date.getTime();
-            await client.query(`INSERT INTO verificationtable (NAME, EMAIL, PASSWORD, TIME_STAMP) VALUES($1,$2,$3,$4);`,[name,email,hashedPassword,time],(err,result) => {
+
+            await SendMail(transporter,email);
+            
+            client.query(`INSERT INTO verificationtable (NAME, EMAIL, PASSWORD, TIME_STAMP) VALUES($1,$2,$3,$4);`,[name,email,hashedPassword,time],(err,result) => {
                 if(err){
                     res.status(500).json({
                         'Error' : 'Query not working'
@@ -46,7 +53,31 @@ SignUpRoute.post('/', AllCredentials, UserDuplicacy, StrongPassword, async (req,
     } finally{
         client.release();
     }
-
-
-
 })
+
+const transporter = nodeMailer.createTransport({
+    service : "gmail",
+    host: "smtp.gmail.com",
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.APP_PASSWORD,
+    },
+});
+
+const SendMail = async (transporter,email) => {
+    try {
+        await transporter.sendMail({
+            from: {
+                name : 'ELearning',
+                address : process.env.USER
+            },
+            to: email,
+            subject: "Verification for the Elearing",
+            html: `<p><div>Click the link to verify your email for ELearning Website</div><a href='http://localhost:7001/verify?m=${email}'>Verify email</a></p>`,
+        });
+    } catch (error) {
+        res.json({
+            'Error' : 'Internal server error'
+        })
+    }
+}
