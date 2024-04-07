@@ -10,22 +10,24 @@ EditCredentials.post('/', AuthCheck, async (req,res) => {
     const picture = req.body.picture;
 
     const id = req.ELB.id;
-    
-    let count = 1;
+
+    let count = 0;
 
     let clause = '';
     if(name){
-        clause = clause+'NAME = $1';
         count++;
+        clause = clause+`NAME = $${count},`;
     }
     if(email){
-        clause = clause+', EMAIL = $2';
         count++;
+        clause = clause+`EMAIL = $${count},`;
     }
     if(picture){
-        clause = clause+', PICTURE = $3';
         count++;
+        clause = clause+`PICTURE = $${count},`;
     }
+    count++;
+    clause = clause.slice(0,-1);
 
     let arr = [];
     if(name){
@@ -41,12 +43,18 @@ EditCredentials.post('/', AuthCheck, async (req,res) => {
 
     let client;
     try {
+        if(!(count-1)){
+            res.json({
+                msg : 'No Credentials were to be changed'
+            })
+        }
         client = await pool.connect();
         client.query(`UPDATE users SET ${clause} WHERE ID = $${count}`,arr,(err,result) => {
             if(err){
-                res.status(500).json({
-                    'Error' : 'Query not working'
-                })
+                // res.status(500).json({
+                //     'Error' : 'Query not working'
+                // })
+                console.log(err);
             }else{
                 res.json({
                     msg : 'Credentials updated successfully'
@@ -58,7 +66,9 @@ EditCredentials.post('/', AuthCheck, async (req,res) => {
             'Error' : "Could not connect to database",
         })
     } finally {
-        client.release();
+        if(count-1){
+            client.release();
+        }
     }
 
 })
