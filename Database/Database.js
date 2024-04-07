@@ -3,14 +3,15 @@ import pg from "pg";
 const { Pool } = pg;
 
 import dotenv from 'dotenv';
-// dotenv.config();
-dotenv.config({
-    path : './../.env'
-});
+
+dotenv.config();
+// dotenv.config({
+//     path : './../.env'
+// });
 
 const connection = process.env.DATABASE_URL;
 
-const pool = new Pool({
+export const pool = new Pool({
     connectionString : connection,
 })
 
@@ -31,7 +32,7 @@ async function setQuery(){
         client.release();
     }
 }
-setQuery();
+// setQuery();
 
 // CREATE TABLE Users (ID VARCHAR(50) PRIMARY KEY, NAME VARCHAR(100) NOT NULL, EMAIL VARCHAR(100) UNIQUE NOT NULL, PASSWORD VARCHAR(255) NOT NULL, PICTURE VARCHAR(255), _TYPE BOOLEAN DEFAULT FALSE);
 // CREATE TABLE Courses (ID VARCHAR(50) PRIMARY KEY, NAME VARCHAR(255) NOT NULL, DESCRIPTION VARCHAR(255), PRICE INT NOT NULL, LEVEL VARCHAR(10), CATEGORY VARCHAR(50), POPULARITY BIGINT, LANGUAGE VARCHAR(30), RATING DECIMAL(2,1), CREATED_BY VARCHAR(100));
