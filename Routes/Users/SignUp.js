@@ -17,7 +17,7 @@ SignUpRoute.post('/', AllCredentials, UserDuplicacy, StrongPassword, async (req,
     const email = req.body.email;
     const password = req.body.password;
 
-    const salt = await genSalt();
+    const salt = await genSalt(5);
     const hashedPassword = await hash(password,salt);
     
     let client;

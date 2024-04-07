@@ -17,7 +17,8 @@ SignInRoute.get('/', UserCheck, (req,res) => {
             email : email,
             type : 'user'
         },SecretKey);
-        res.cookie('ELB',token);
+        const bearerToken = `bearer ${token}`;
+        res.cookie('ELB',bearerToken);
         res.json({
             msg : 'User signed in'
         })
