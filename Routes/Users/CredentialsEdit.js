@@ -42,25 +42,27 @@ EditCredentials.post('/', AuthCheck, async (req,res) => {
     arr.push(id);
 
     let client;
+    console.log(count,clause,arr);
     try {
         if(!(count-1)){
             res.json({
                 msg : 'No Credentials were to be changed'
             })
         }
-        client = await pool.connect();
-        client.query(`UPDATE users SET ${clause} WHERE ID = $${count}`,arr,(err,result) => {
-            if(err){
-                // res.status(500).json({
-                //     'Error' : 'Query not working'
-                // })
-                console.log(err);
-            }else{
-                res.json({
-                    msg : 'Credentials updated successfully'
-                })
-            }
-        });
+        else{
+            client = await pool.connect();
+            client.query(`UPDATE users SET ${clause} WHERE ID = $${count}`,arr,(err,result) => {
+                if(err){
+                    res.status(500).json({
+                        'Error' : 'Query not working'
+                    })
+                }else{
+                    res.json({
+                        msg : 'Credentials updated successfully'
+                    })
+                }
+            });
+        }
     } catch (error) {
         res.status(500).json({
             'Error' : "Could not connect to database",
