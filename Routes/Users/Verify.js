@@ -21,26 +21,33 @@ VerifyRoute.get('/', UserDuplicacy, async (req,res) => {
                         'Error' : 'Query not working'
                     })
                 }else{
-                    client.query(`INSERT INTO users (ID, NAME, EMAIL, PASSWORD, PICTURE) VALUES ($1,$2,$3,$4,$5);`,[id,result.rows[0].name,result.rows[0].email,result.rows[0].password,""],(err,result) => {
-                        if(err){
-                            res.status(500).json({
-                                'Error' : 'Query not working'
-                            })
-                        }else{
-                            client.query(`DELETE FROM verificationtable WHERE EMAIL = $1;`,[email],(err,result) => {
-                                if(err){
-                                    res.status(500).json({
-                                        'Error' : 'Query not working'
-                                    })
-                                }
-                                else{
-                                    res.json({
-                                        msg : "User created successfully",
-                                    })
-                                }
-                            });
-                        }
-                    });
+                    if(!result.rowCount){
+                        res.status(500).json({
+                            'Error' : 'Internal server error'
+                        })
+                    }else{
+                        client.query(`INSERT INTO users (ID, NAME, EMAIL, PASSWORD, PICTURE) VALUES ($1,$2,$3,$4,$5);`,[id,result.rows[0].name,result.rows[0].email,result.rows[0].password,""],(err,result) => {
+                            if(err){
+                                // console.log(err);
+                                res.status(500).json({
+                                    'Error' : 'Query not working'
+                                })
+                            }else{
+                                client.query(`DELETE FROM verificationtable WHERE EMAIL = $1;`,[email],(err,result) => {
+                                    if(err){
+                                        res.status(500).json({
+                                            'Error' : 'Query not working'
+                                        })
+                                    }
+                                    else{
+                                        res.json({
+                                            msg : "User created successfully",
+                                        })
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
             });
         } catch (error) {
@@ -52,5 +59,7 @@ VerifyRoute.get('/', UserDuplicacy, async (req,res) => {
         res.status(500).json({
             'Error' : "Could not connect to database",
         })
+    } finally {
+        client.release();
     }
 })
