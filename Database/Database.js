@@ -3,7 +3,6 @@ import pg from "pg";
 const { Pool } = pg;
 
 import dotenv from 'dotenv';
-import { nanoid } from "nanoid";
 
 dotenv.config();
 // dotenv.config({
@@ -22,8 +21,7 @@ async function setQuery(){
         client = await pool.connect();
         console.log('Connection Successful');
         try {
-            const id = nanoid(30);
-            await client.query(`DELETE FROM purchased_courses;`);
+            await client.query(`DELETE FROM verificationtable;`);
             console.log('Query Successful');
         } catch (error) {
             console.log(error);

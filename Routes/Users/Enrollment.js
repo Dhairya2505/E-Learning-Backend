@@ -24,16 +24,23 @@ EnrollmentRoute.post('/',AuthCheck, DuplicateEnrollment, async (req,res) => {
                         'Error' : 'No such course found'
                     })
                 }else{
-                    await client.query(`INSERT INTO purchased_courses VALUES ($1,$2,$3,$4,$5);`,[userId,courseId,result.rows[0].name,result.rows[0].description,result.rows[0].language],(err,result) => {
+                    await client.query(`INSERT INTO purchased_courses VALUES ($1,$2,$3,$4,$5);`,[userId,courseId,result.rows[0].name,result.rows[0].description,result.rows[0].language], async (err,result) => {
                         if(err){
-                            console.log(err);
                             res.status(500).json({
                                 'Error' : 'Query not working'
                             }) 
                         }
                         else{
-                            res.json({
-                                msg : 'Course purchased successfully'
+                            await client.query(`UPDATE courses SET popularity = (SELECT POPULARITY FROM courses WHERE id = $1)+1 WHERE id = $2;`,[courseId,courseId],(err,result) => {
+                                if(err){
+                                    res.status(500).json({
+                                        'Error' : 'Query not working'
+                                    }) 
+                                }else{
+                                    res.json({
+                                        msg : 'Course purchased successfully'
+                                    })
+                                }
                             })
                         }
                     });
