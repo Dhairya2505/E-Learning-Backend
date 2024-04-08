@@ -9,6 +9,8 @@ import { ProfileRoute } from './Routes/Users/Profile.js';
 import { PasswordReset } from './Routes/Users/PasswordReset.js';
 import { EditCredentials } from './Routes/Users/CredentialsEdit.js';
 import { CreateCourseRoute } from './Routes/SuperAdmin/CreateCourse.js';
+import { EnrolledRoute } from './Routes/Users/Enrolled.js';
+import { EnrollmentRoute } from './Routes/Users/Enrollment.js';
 
 const app = express();
 
@@ -23,6 +25,8 @@ app.use('/profile',ProfileRoute);
 app.use('/passwordReset',PasswordReset);
 app.use('/edit',EditCredentials);
 app.use('/createcourse',CreateCourseRoute);
+app.use('/enrolled',EnrolledRoute);
+app.use('/enroll',EnrollmentRoute);
 
 const PORT = process.env.PROT || 7001;
 app.listen(PORT,() => {

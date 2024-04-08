@@ -23,7 +23,7 @@ async function setQuery(){
         console.log('Connection Successful');
         try {
             const id = nanoid(30);
-            await client.query(``);
+            await client.query(`CREATE TABLE Purchased_Courses (User_id VARCHAR(50) NOT NULL, Course_id VARCHAR(50) NOT NULL, Course_Name VARCHAR(255) NOT NULL, Course_Description VARCHAR(255), Language VARCHAR(30), Purchased_Date_Time TIMESTAMP WITH TIME ZONE DEFAULT (now() at time zone 'Asia/Kolkata'));`);
             console.log('Query Successful');
         } catch (error) {
             console.log(error);
