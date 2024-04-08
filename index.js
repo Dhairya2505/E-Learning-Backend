@@ -11,6 +11,7 @@ import { EditCredentials } from './Routes/Users/CredentialsEdit.js';
 import { CreateCourseRoute } from './Routes/SuperAdmin/CreateCourse.js';
 import { EnrolledRoute } from './Routes/Users/Enrolled.js';
 import { EnrollmentRoute } from './Routes/Users/Enrollment.js';
+import { DeleteCourse } from './Routes/SuperAdmin/DeleteCourse.js';
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use('/edit',EditCredentials);
 app.use('/createcourse',CreateCourseRoute);
 app.use('/enrolled',EnrolledRoute);
 app.use('/enroll',EnrollmentRoute);
+app.use('/delete',DeleteCourse);
 
 const PORT = process.env.PROT || 7001;
 app.listen(PORT,() => {
