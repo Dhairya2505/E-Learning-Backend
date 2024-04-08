@@ -12,6 +12,7 @@ import { CreateCourseRoute } from './Routes/SuperAdmin/CreateCourse.js';
 import { EnrolledRoute } from './Routes/Users/Enrolled.js';
 import { EnrollmentRoute } from './Routes/Users/Enrollment.js';
 import { DeleteCourse } from './Routes/SuperAdmin/DeleteCourse.js';
+import { EditCourseRoute } from './Routes/SuperAdmin/EditCourse.js';
 
 const app = express();
 
@@ -29,6 +30,7 @@ app.use('/createcourse',CreateCourseRoute);
 app.use('/enrolled',EnrolledRoute);
 app.use('/enroll',EnrollmentRoute);
 app.use('/delete',DeleteCourse);
+app.use('/editcourse',EditCourseRoute);
 
 const PORT = process.env.PROT || 7001;
 app.listen(PORT,() => {

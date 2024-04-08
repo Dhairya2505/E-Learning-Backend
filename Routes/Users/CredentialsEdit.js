@@ -42,7 +42,6 @@ EditCredentials.post('/', AuthCheck, async (req,res) => {
     arr.push(id);
 
     let client;
-    console.log(count,clause,arr);
     try {
         if(!(count-1)){
             res.json({
