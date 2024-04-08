@@ -45,8 +45,26 @@ EditCourseRoute.post('/', AdminAuthCheck, async (req,res) => {
         count++;
         clause = clause+`CREATED_BY = $${count},`;
     }
+
+    let clause2 = '';
+    let count2 = 0
+    if(name){
+        count2++;
+        clause2 = clause2+`course_name = $${count2},`;
+    }
+    if(description){
+        count2++;
+        clause2 = clause2+`course_description = $${count2},`;
+    }
+    if(language){
+        count2++;
+        clause2 = clause2+`LANGUAGE = $${count2},`;
+    }
+
     count++;
+    count2++;
     clause = clause.slice(0,-1);
+    clause2 = clause2.slice(0,-1);
 
     let arr =[];
     if(name){
@@ -71,7 +89,19 @@ EditCourseRoute.post('/', AdminAuthCheck, async (req,res) => {
         arr.push(creator);
     }
 
+    let arr2 =[];
+    if(name){
+        arr2.push(name);
+    }
+    if(description){
+        arr2.push(description);
+    }
+    if(language){
+        arr.push(language);
+    }
+
     arr.push(courseId);
+    arr2.push(courseId);
 
     let client;
     try {
@@ -82,15 +112,32 @@ EditCourseRoute.post('/', AdminAuthCheck, async (req,res) => {
         }
         else{
             client = await pool.connect();
-            client.query(`UPDATE courses SET ${clause} WHERE ID = $${count}`,arr,(err,result) => {
+            client.query(`UPDATE courses SET ${clause} WHERE ID = $${count}`,arr, async (err,result) => {
                 if(err){
                     res.status(500).json({
                         'Error' : 'Query not working'
                     })
                 }else{
-                    res.json({
-                        msg : 'Course updated successfully'
-                    })
+                    if(!(count2-1)){
+                        res.json({
+                            msg : 'Course updated successfully'
+                        })
+                    }
+                    else{
+                        await client.query(`UPDATE purchased_courses SET ${clause2} WHERE course_id = $${count2}`,arr2,(err,result) => {
+                            if(err){
+                                console.log(err);
+                                res.status(500).json({
+                                    'Error' : 'Query not working'
+                                })
+                            }
+                            else{
+                                res.json({
+                                    msg : 'Course updated successfully'
+                                })
+                            }
+                        })
+                    }
                 }
             });
         }
