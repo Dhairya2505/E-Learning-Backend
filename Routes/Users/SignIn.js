@@ -11,12 +11,25 @@ SignInRoute.get('/', UserCheck, (req,res) => {
         const id = req.id;
         const name = req.name;
         const email = req.headers.email;
-        const token = jwt.sign({
-            id : id,
-            name : name,
-            email : email,
-            type : 'user'
-        },SecretKey);
+        const Type = req.Type;
+
+        let token;
+        if(!Type){
+            token = jwt.sign({
+                id : id,
+                name : name,
+                email : email,
+                type : 'user'
+            },SecretKey);
+        }else{
+            token = jwt.sign({
+                id : id,
+                name : name,
+                email : email,
+                type : 'admin'
+            },SecretKey);
+        }
+        
         const bearerToken = `bearer ${token}`;
         res.cookie('ELB',bearerToken);
         res.json({

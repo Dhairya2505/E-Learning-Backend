@@ -11,7 +11,7 @@ export const UserCheck = async (req,res,next) => {
     try {
         client = await pool.connect();
         try {
-            client.query(`SELECT ID,NAME,EMAIL,PASSWORD FROM users WHERE EMAIL = $1`,[email],(err,result1) => {
+            client.query(`SELECT ID,NAME,EMAIL,PASSWORD,_TYPE FROM users WHERE EMAIL = $1`,[email],(err,result1) => {
                 if(err){
                     res.status(500).json({
                         'Error' : 'Query not working'
@@ -23,6 +23,7 @@ export const UserCheck = async (req,res,next) => {
                         if(result2){
                             req.name = result1.rows[0].name;
                             req.id = result1.rows[0].id;
+                            req.Type = result1.rows[0]._type;
                             next();
                         }
                         else{

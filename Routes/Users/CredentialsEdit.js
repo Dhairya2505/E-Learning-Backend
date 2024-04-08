@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AuthCheck } from "../../Middlewares/AuthCheck.js";
+import { AuthCheck } from "../../Middlewares/UserAuthCheck.js";
 import { pool } from "../../Database/Database.js";
 
 export const EditCredentials = Router();
