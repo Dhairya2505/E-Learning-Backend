@@ -107,7 +107,7 @@ EditCourseRoute.post('/', AdminAuthCheck, async (req,res) => {
     try {
         if(!(count-1)){
             res.json({
-                msg : 'No Credentials were to be changed'
+                msg : 'Nothing to be changed'
             })
         }
         else{

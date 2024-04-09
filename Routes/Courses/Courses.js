@@ -1,9 +1,10 @@
 import { Router } from 'express';
 import { pool } from '../../Database/Database.js';
+import { AuthCheck } from '../../Middlewares/AuthCheck.js';
 
 export const CoursesRoute = Router();
 
-CoursesRoute.get('/', async (req,res) => {
+CoursesRoute.get('/', AuthCheck, async (req,res) => {
     const page = req.query.page ? req.query.page : 1;
     const level = req.query.level;
     const language = req.query.language;
@@ -79,9 +80,23 @@ CoursesRoute.get('/', async (req,res) => {
                     'Error' : 'Query not working'
                 })
             }else{
-                res.json({
-                    'Courses' : result.rows 
-                })
+                if(!result.rowCount){
+                    if(page!=1){
+                        res.status(404).json({
+                            'Error' : 'Page not found'
+                        })
+                    }
+                    else{
+                        res.status(404).json({
+                            msg : 'There is no course like this'
+                        })
+                    }
+                }
+                else{
+                    res.json({
+                        'Courses' : result.rows 
+                    })
+                }
             }
         })
     } catch (error) {

@@ -1,10 +1,10 @@
 import { Router } from "express";
-import { AuthCheck } from "../../Middlewares/UserAuthCheck.js";
 import { pool } from "../../Database/Database.js";
+import { UserAuthCheck } from "../../Middlewares/Users/UserAuthCheck.js";
 
 export const EnrolledRoute = Router();
 
-EnrolledRoute.get('/', AuthCheck, async (req,res) => {
+EnrolledRoute.get('/', UserAuthCheck, async (req,res) => {
     const id = req.ELB.id;
     
     let client;

@@ -28,7 +28,7 @@ export const UserCheck = async (req,res,next) => {
                         }
                         else{
                             res.status(401).json({
-                                'Error' : 'Unauthorized'
+                                'Error' : 'Wrong credentials'
                             })
                         }
                     })

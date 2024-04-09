@@ -1,11 +1,11 @@
 import { Router } from 'express';
-import { AuthCheck } from '../../Middlewares/UserAuthCheck.js';
 import { pool } from '../../Database/Database.js';
 import { DuplicateEnrollment } from '../../Middlewares/Users/DuplicateEnrollment.js';
+import { UserAuthCheck } from '../../Middlewares/Users/UserAuthCheck.js';
 
 export const EnrollmentRoute = Router();
 
-EnrollmentRoute.post('/',AuthCheck, DuplicateEnrollment, async (req,res) => {
+EnrollmentRoute.post('/', UserAuthCheck, DuplicateEnrollment, async (req,res) => {
     const courseId = req.body.id;
     const userId = req.ELB.id;
     

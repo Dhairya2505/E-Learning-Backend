@@ -32,9 +32,16 @@ SignInRoute.get('/', UserCheck, (req,res) => {
         
         const bearerToken = `bearer ${token}`;
         res.cookie('ELB',bearerToken);
-        res.json({
-            msg : 'User signed in'
-        })
+        if(!Type){
+            res.json({
+                msg : 'User signed in'
+            })
+        }
+        else{
+            res.json({
+                msg : 'Admin signed in'
+            })
+        }
     } catch (error) {
         res.status(500).json({
             'Error' : 'Internal server error'

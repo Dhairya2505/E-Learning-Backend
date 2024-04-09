@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { AuthCheck } from "../../Middlewares/UserAuthCheck.js";
+import { AuthCheck } from "../../Middlewares/AuthCheck.js";
 import { pool } from "../../Database/Database.js";
 
 export const EditCredentials = Router();
@@ -56,6 +56,7 @@ EditCredentials.post('/', AuthCheck, async (req,res) => {
                         'Error' : 'Query not working'
                     })
                 }else{
+                    res.clearCookie('ELB');
                     res.json({
                         msg : 'Credentials updated successfully'
                     })

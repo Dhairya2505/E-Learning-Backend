@@ -21,7 +21,7 @@ CreateCourseRoute.post('/', AdminAuthCheck, async (req,res) => {
     let client;
     try {
         client = await pool.connect();
-        client.query(`INSERT INTO Courses (ID, NAME, DESCRIPTION, PRICE, LEVEL, CATEGORY, POPULARITY, LANGUAGE, RATING, CREATED_BY) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);`,[id,name,description,price,level,category,popularity,language,rating,creator],(err,result) => {
+        client.query(`INSERT INTO Courses (ID, NAME, DESCRIPTION, PRICE, LEVEL, CATEGORY, POPULARITY, LANGUAGE, RATING, CREATED_BY) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10);`,[id,name,description ? description : "",price,level ? level : "",category ? category : "",popularity,language ? language : "",rating,creator ? creator : ""],(err,result) => {
             if(err){
                 res.status(500).json({
                     'Error' : 'Query not working'

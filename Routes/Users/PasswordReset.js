@@ -1,11 +1,12 @@
 import { Router } from "express";
-import { AuthCheck } from "../../Middlewares/UserAuthCheck.js";
+import { AuthCheck } from "../../Middlewares/AuthCheck.js";
 import { genSalt, hash } from "bcrypt";
 import { pool } from "../../Database/Database.js";
+import { StrongPasswordForReset } from "../../Middlewares/Users/StrongPasswordFotReset.js";
 
 export const PasswordReset = Router();
 
-PasswordReset.get('/', AuthCheck, async (req,res) => {
+PasswordReset.get('/', AuthCheck, StrongPasswordForReset, async (req,res) => {
     const newPassword = req.headers.password;
     const details = req.ELB;
 
@@ -17,12 +18,13 @@ PasswordReset.get('/', AuthCheck, async (req,res) => {
     let client;
     try {
         client = await pool.connect();
-        client.query(`UPDATE users SET PASSWORD = $1 WHERE ID = $2`,[hashedPassword,id],(err,result) => {
+        client.query(`UPDATE users SET PASSWORD = $1 WHERE ID = $2`,[hashedPassword,id], (err,result) => {
             if(err){
                 res.status(500).json({
                     'Error' : 'Query not working'
                 })
             }else{
+                res.clearCookie('ELB');
                 res.json({
                     msg : 'Password was successfully reset'
                 })
