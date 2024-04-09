@@ -46,7 +46,6 @@ CoursesRoute.get('/', async (req,res) => {
         clause = '';
     }
 
-    console.log(clause);
 
     const NoofPages = 10;
     const offset = ((page-1)*NoofPages);
@@ -70,8 +69,6 @@ CoursesRoute.get('/', async (req,res) => {
     if(rating){
         arr.push(rating);
     }
-
-    console.log(arr);
     
     let client;
     try {
