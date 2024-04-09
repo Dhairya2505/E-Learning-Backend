@@ -72,7 +72,7 @@ const SendMail = async (transporter,email) => {
                 address : process.env.USER
             },
             to: email,
-            subject: "Verification for the Elearing",
+            subject: "Verification for the Elearning",
             html: `<p><div>Click the link to verify your email for ELearning Website</div><a href='http://localhost:7001/verify?m=${email}'>Verify email</a></p>`,
         });
     } catch (error) {
