@@ -34,7 +34,7 @@ app.use('/delete',DeleteCourse);
 app.use('/editcourse',EditCourseRoute);
 app.use('/courses',CoursesRoute);
 
-const PORT = process.env.PROT || 7001;
+const PORT = process.env.PORT || 7001;
 app.listen(PORT,() => {
     console.log(`Server is running on PORT : ${PORT}`);
 })
