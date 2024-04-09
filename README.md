@@ -4,6 +4,8 @@
 
 ## Routes ->
 
+### NOTE -  The requirements with **'*'** are mandatory.
+
 # User Routes
 
 ### 1. /signup - This is a **POST** route, used for user signup.
@@ -41,7 +43,7 @@
 ### 3. /editcourse - This is a **POST** route, used to edit a course.
 ##### Requires -> body -> { *id, name, description, price, *level, category, language, creator }
 
-# Admin Routes
+# Course Routes
 
 ### 1. /courses - This is a **GET** route, used to get all the courses.
 ##### Requires -> params { page, level, language, price, category, popularity, rating }
@@ -52,3 +54,4 @@
 ## API for the backend -> [E-Learning-Backend](https://e-learning-backend-195v.onrender.com)
 
 #### NOTE -> As there is no '/' route, it will give ***"Cannot get /"***. But when you will enter routes, it will work.
+
