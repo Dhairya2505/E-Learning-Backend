@@ -13,38 +13,40 @@ CoursesRoute.get('/', async (req,res) => {
     const rating = req.query.rating;
 
 
-    let clause = 'WHERE ';
+    let clause = 'WHERE';
     let count = 1;
     if(level){
-        clause = clause+`LEVEL = $${count} AND`;
+        clause = clause+` LEVEL = $${count} AND`;
         count++;
     }
     if(language){
-        clause = clause+`LANGUAGE = $${count} AND`;
+        clause = clause+` LANGUAGE = $${count} AND`;
         count++;
     }
     if(price){
-        clause = clause+`PRICE = $${count} AND`;
+        clause = clause+` PRICE = $${count} AND`;
         count++;
     }
     if(category){
-        clause = clause+`CATEGORY = $${count} AND`;
+        clause = clause+` CATEGORY = $${count} AND`;
         count++;
     }
     if(popularity){
-        clause = clause+`POPULARITY = $${count} AND`;
+        clause = clause+` POPULARITY = $${count} AND`;
         count++;
     }
     if(rating){
-        clause = clause+`RATING = $${count} AND`;  
+        clause = clause+` RATING = $${count} AND`;  
         count++;
     }
 
-    if(!(clause === 'WHERE ')){
+    if(!(clause === 'WHERE')){
         clause = clause.slice(0,-4);
     }else{
         clause = '';
     }
+
+    console.log(clause);
 
     const NoofPages = 10;
     const offset = ((page-1)*NoofPages);
@@ -68,6 +70,8 @@ CoursesRoute.get('/', async (req,res) => {
     if(rating){
         arr.push(rating);
     }
+
+    console.log(arr);
     
     let client;
     try {

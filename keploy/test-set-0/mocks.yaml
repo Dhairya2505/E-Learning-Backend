@@ -1,0 +1,21 @@
+version: api.keploy.io/v1beta1
+kind: Postgres
+name: mock-0
+spec:
+    metadata:
+        type: config
+    postgresrequests:
+        - identifier: StartupRequest
+          length: 8
+          payload: AAAACATSFi8=
+          ssl_request:
+            is_ssl: true
+          auth_type: 0
+    postgresresponses:
+        - payload: Uw==
+          authentication_md5_password:
+            salt: [0, 0, 0, 0]
+          auth_type: 0
+    reqtimestampmock: 2024-04-09T20:13:19.6516453+05:30
+    restimestampmock: 2024-04-09T20:13:19.745369367+05:30
+connectionId: "0"

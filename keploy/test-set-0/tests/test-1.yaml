@@ -1,0 +1,69 @@
+version: api.keploy.io/v1beta1
+kind: Http
+name: test-1
+spec:
+    metadata: {}
+    req:
+        method: GET
+        proto_major: 1
+        proto_minor: 1
+        url: http://localhost:7001/
+        header:
+            Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8
+            Accept-Encoding: gzip, deflate, br
+            Accept-Language: en-US,en;q=0.5
+            Connection: keep-alive
+            Host: localhost:7001
+            Sec-Fetch-Dest: document
+            Sec-Fetch-Mode: navigate
+            Sec-Fetch-Site: none
+            Sec-Fetch-User: ?1
+            Upgrade-Insecure-Requests: "1"
+            User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0
+        body: ""
+        timestamp: 2024-04-09T20:13:14.719868503+05:30
+    resp:
+        status_code: 404
+        header:
+            Connection: keep-alive
+            Content-Length: "139"
+            Content-Security-Policy: default-src 'none'
+            Content-Type: text/html; charset=utf-8
+            Date: Tue, 09 Apr 2024 14:43:14 GMT
+            Keep-Alive: timeout=5
+            X-Content-Type-Options: nosniff
+            X-Powered-By: Express
+        body: |
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+            <meta charset="utf-8">
+            <title>Error</title>
+            </head>
+            <body>
+            <pre>Cannot GET /</pre>
+            </body>
+            </html>
+        status_message: Not Found
+        proto_major: 0
+        proto_minor: 0
+        timestamp: 2024-04-09T20:13:16.75166207+05:30
+    objects: []
+    assertions:
+        noise:
+            header.Date: []
+    created: 1712673796
+curl: |
+    curl --request GET \
+      --url http://localhost:7001/ \
+      --header 'Host: localhost:7001' \
+      --header 'Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8' \
+      --header 'Sec-Fetch-Mode: navigate' \
+      --header 'Sec-Fetch-Site: none' \
+      --header 'Accept-Language: en-US,en;q=0.5' \
+      --header 'Sec-Fetch-User: ?1' \
+      --header 'Accept-Encoding: gzip, deflate, br' \
+      --header 'Connection: keep-alive' \
+      --header 'Sec-Fetch-Dest: document' \
+      --header 'Upgrade-Insecure-Requests: 1' \
+      --header 'User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:109.0) Gecko/20100101 Firefox/118.0' \
