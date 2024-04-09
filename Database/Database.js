@@ -3,19 +3,14 @@ import pg from "pg";
 const { Pool } = pg;
 
 import dotenv from 'dotenv';
-import { nanoid } from "nanoid";
-import { genSalt, hash } from "bcrypt";
 
-// dotenv.config();
-// dotenv.config({
-//     path : './../.env'
-// });
+dotenv.config();
 
-// const connection = process.env.DATABASE_URL;
+const connection = process.env.DATABASE_URL;
 
-// export const pool = new Pool({
-//     connectionString : connection,
-// })
+export const pool = new Pool({
+    connectionString : connection,
+})
 
 async function setQuery(){
     let client;
@@ -34,13 +29,6 @@ async function setQuery(){
         client.release();
     }
 }
-
-async function queryF(){
-    const salt = await genSalt(10);
-    const password = await hash('XyZ@1234',salt);
-    await console.log(password);
-}
-queryF();
 
 
 // setQuery();
