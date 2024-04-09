@@ -53,5 +53,16 @@
 
 ## API for the backend -> [E-Learning-Backend](https://e-learning-backend-195v.onrender.com)
 
+### Accounts ->
+
+#### User 
+##### email -> ABC@gmail.com
+##### password -> AbC@1234
+
+#### Admin
+##### email -> XYZ@gmail.com
+##### password -> XyZ@1234
+
+
 #### NOTE -> As there is no '/' route, it will give ***"Cannot get /"***. But when you will enter routes, it will work.
 
